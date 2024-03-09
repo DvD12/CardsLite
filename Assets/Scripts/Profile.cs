@@ -21,6 +21,7 @@ namespace Outraged
         public static string AllowHotjoin = "AllowHotjoin";
         public static string AllowLastPointIsDealer = "AllowLastPointIsDealer";
         public static string AllowVoiceChat = "AllowVoiceChat";
+        public static string BackgroundImgHSV = "BackgroundImgHSV";
         public const string PlayerPropertyGUID = "PlayerPropertyGUID";
 
         public static string AppLanguage = "AppLanguage";
@@ -52,6 +53,7 @@ namespace Outraged
                 PunInterface.Recorder.StartRecording();
             }
         }
+        public static void SetBackgroundImgHSV(float hsv) => PlayerPrefs.SetString(BackgroundImgHSV, hsv.ToString("F3"));
         public static string GetNickname() => PlayerPrefs.GetString(PlayerName, GetRandomName());
         public static string GetRoomName() => PlayerPrefs.GetString(RoomName, "New Room");
         public static int GetMaxPlayers() => PlayerPrefs.GetInt(MaxPlayers, 10);
@@ -103,6 +105,12 @@ namespace Outraged
                 else { SetMicrophone(0); }
             }
             return PlayerPrefs.GetInt(Microphone);
+        }
+        public static float GetBackgroundImgHSV()
+        {
+            if (!PlayerPrefs.HasKey(BackgroundImgHSV))
+                PlayerPrefs.SetFloat(BackgroundImgHSV, 0);
+            return PlayerPrefs.GetFloat(BackgroundImgHSV);
         }
 
         public static void ClearPrefs()

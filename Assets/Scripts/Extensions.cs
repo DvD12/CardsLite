@@ -234,5 +234,16 @@ namespace Outraged
         public static double Smooth(this double t) => t * t * (3 - 2 * t);
         public static float SmoothStart(this float t) => ((float)t).SmoothStart();
         public static double SmoothStart(this double t) => (t * t * t * t + t) / 2;
+        public static void AddListener(this UnityEngine.EventSystems.EventTrigger trigger, List<UnityEngine.EventSystems.EventTriggerType> types, Action action, bool clear)
+        {
+            if (clear) { trigger.triggers.Clear(); }
+            foreach (var type in types)
+            {
+                UnityEngine.EventSystems.EventTrigger.Entry entry = new UnityEngine.EventSystems.EventTrigger.Entry();
+                entry.eventID = type;
+                entry.callback.AddListener((e) => action());
+                trigger.triggers.Add(entry);
+            }
+        }
     }
 }

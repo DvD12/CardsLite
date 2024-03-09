@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Outraged
@@ -19,6 +20,8 @@ namespace Outraged
         public TouchBtn OptionsMenuAppLanguageValueTxt;
         public DynamicText OptionsMenuMicrophoneTxt;
         public TouchBtn OptionsMenuMicrophoneValueTxt;
+        public DynamicText OptionsMenuColorSliderTxt;
+        public Slider OptionsMenuColorSlider;
         public Image OptionsMenuMicrophoneLevelBackgroundImg;
         public Image OptionsMenuMicrophoneLevelImg;
 
@@ -44,10 +47,25 @@ namespace Outraged
                 OptionsMenuMicrophoneValueTxt = Helpers.Find<TouchBtn>(nameof(OptionsMenuMicrophoneValueTxt));
                 OptionsMenuMicrophoneLevelBackgroundImg = Helpers.Find<Image>(nameof(OptionsMenuMicrophoneLevelBackgroundImg));
                 OptionsMenuMicrophoneLevelImg = Helpers.Find<Image>(nameof(OptionsMenuMicrophoneLevelImg));
+                OptionsMenuColorSliderTxt = Helpers.Find<DynamicText>(nameof(OptionsMenuColorSliderTxt));
+                OptionsMenuColorSlider = Helpers.Find<Slider>(nameof(OptionsMenuColorSlider));
                 OptionsMenuBackBtn = Helpers.Find<UI_TxtImgBtn>(nameof(OptionsMenuBackBtn));
                 OptionsMenuActionBtn = Helpers.Find<UI_TxtImgBtn>(nameof(OptionsMenuActionBtn));
+                var events = new List<EventTriggerType>() { EventTriggerType.EndDrag, EventTriggerType.PointerUp };
+                OptionsMenuColorSlider.GetComponent<EventTrigger>().AddListener(events, () => SetBackgroundColor(), true);
                 isInitialized = true;
             }
+        }
+
+        public void SetBackgroundColor(float? value = null, bool save = true)
+        {
+            if (value == null)
+                value = OptionsMenuColorSlider.value;
+            else
+                OptionsMenuColorSlider.value = value.Value;
+            MenuHandler.BackgroundImg.color = Color.HSVToRGB(OptionsMenuColorSlider.value, 1, 1);
+            if (save)
+                Profile.SetBackgroundImgHSV(value.Value);
         }
 
         private void FixedUpdate()
@@ -116,6 +134,7 @@ namespace Outraged
                     Profile.SetMicrophone(newMic);
                 }));
             });
+            //SetBackgroundColor(Profile.GetBackgroundImgHSV(), false); // TODO
         }
 
         public void Activate(bool active)

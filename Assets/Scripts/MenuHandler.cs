@@ -32,6 +32,7 @@ namespace Outraged
         public static Canvas VectorCanvas;
         public static MenuState PreviousMenu;
         public static MenuState CurrentMenu;
+        public static Image BackgroundImg;
 
         public UI_ChoiceSelectionDialog UI_ChoiceSelectionDialog;
         public UI_InputDialog UI_InputDialog;
@@ -70,6 +71,7 @@ namespace Outraged
             CanvasBack = Helpers.Find<Canvas>(nameof(CanvasBack));
             CanvasFront = Helpers.Find<Canvas>(nameof(CanvasFront));
             VectorCanvas = Helpers.Find<Canvas>(nameof(VectorCanvas));
+            BackgroundImg = Helpers.Find<Image>(nameof(BackgroundImg));
             StartMenuCategory = Helpers.Find<GameObject>(nameof(StartMenuCategory));
             GameMenuCategory = Helpers.Find<GameObject>(nameof(GameMenuCategory));
             AllMenuCategory = Helpers.Find<AllMenuContainer>(nameof(AllMenuCategory));
